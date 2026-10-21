@@ -1,0 +1,458 @@
+/*
+  ТЗ п.5.1: палитра и типографика.
+  Тема только тёмная, окно фиксированное 800x600 (ТЗ п.5).
+*/
+:root {
+  --bg: #1e1e1e;
+  --panel: #2d2d2d;
+  --panel-dark: #181818;
+  --text: #ffffff;
+  --muted: #e0e0e0;
+  --muted-dim: #a8a8a8;
+  --border: #3a3a3a;
+  --accent: #007acc;
+  --accent-hover: #1a8cd8;
+  --error: #d32f2f;
+  --error-hover: #b71c1c;
+  --success: #2e7d32;
+  --radius: 6px;
+  --font: "Segoe UI", Arial, sans-serif;
+  --mono: "Consolas", "Courier New", monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--muted);
+  font-family: var(--font);
+  font-size: 10pt;
+  user-select: none;
+}
+
+button,
+input,
+select {
+  font-family: inherit;
+  font-size: 10pt;
+}
+
+/* Сетка окна: верх / центр / низ. */
+.app {
+  width: 100%;
+  height: 100%;
+  padding: 12px;
+  display: grid;
+  grid-template-rows: 150px minmax(0, 1fr) 108px;
+  gap: 10px;
+}
+
+/* ---------------- Верхняя зона: импорт ---------------- */
+.dropzone {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 16px;
+  border: 2px dashed var(--accent);
+  border-radius: var(--radius);
+  background: var(--panel);
+  cursor: pointer;
+  outline: none;
+}
+
+.dropzone:hover,
+.dropzone:focus-visible {
+  background: #333333;
+}
+
+.dropzone.drag-over {
+  border-style: solid;
+  background: #33414a;
+}
+
+.dropzone.error {
+  border-color: var(--error);
+  background: #3a2626;
+}
+
+.drop-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.drop-icon {
+  flex: 0 0 auto;
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+}
+
+.drop-icon svg {
+  width: 42px;
+  height: 42px;
+}
+
+.drop-hint {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.45;
+  max-width: 430px;
+}
+
+.drop-hint.ready {
+  color: var(--text);
+}
+
+.drop-actions {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* ---------------- Кнопки ---------------- */
+.btn {
+  min-height: 30px;
+  padding: 0 14px;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  color: #ffffff;
+  background: var(--border);
+  cursor: pointer;
+  transition: background 0.12s ease;
+}
+
+.btn:hover:not(:disabled) {
+  background: #4a4a4a;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.btn-primary {
+  background: var(--accent);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.btn-secondary {
+  background: #3a3a3a;
+  border-color: #4a4a4a;
+}
+
+.btn-danger {
+  background: var(--error);
+}
+
+.btn-danger:hover:not(:disabled) {
+  background: var(--error-hover);
+}
+
+/* ---------------- Средняя зона ---------------- */
+.middle {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 10px;
+  min-height: 0;
+}
+
+.panel {
+  min-height: 0;
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  background: var(--panel);
+}
+
+.panel h2 {
+  margin: 0 0 8px;
+  font-size: 14pt;
+  font-weight: bold;
+  color: var(--text);
+}
+
+.settings {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow: hidden;
+}
+
+.settings.disabled {
+  opacity: 0.6;
+}
+
+.field-label {
+  display: block;
+  margin: 0;
+  color: var(--muted);
+  font-size: 10pt;
+}
+
+.input {
+  width: 100%;
+  height: 27px;
+  padding: 0 8px;
+  color: var(--text);
+  background: #252525;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  outline: none;
+}
+
+.input:focus {
+  border-color: var(--accent);
+}
+
+select.input {
+  cursor: pointer;
+}
+
+.line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 2px;
+}
+
+.value {
+  color: var(--text);
+  font-weight: bold;
+}
+
+.range {
+  width: 100%;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.check input {
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.dims {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.dims.disabled {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.dims .input {
+  height: 26px;
+}
+
+.log-panel {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.log {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 8px;
+  border-radius: 4px;
+  background: var(--panel-dark);
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 9.5pt;
+  line-height: 1.45;
+  user-select: text;
+}
+
+.log-line {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.log-line.ok {
+  color: #7fd18a;
+}
+
+.log-line.error {
+  color: #ef9a9a;
+}
+
+.log-line.warn {
+  color: #ffcc80;
+}
+
+.log-empty {
+  color: var(--muted-dim);
+  font-style: italic;
+}
+
+/* ---------------- Нижняя зона ---------------- */
+.bottom {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.progress-area {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.progress {
+  position: relative;
+  height: 14px;
+  border-radius: 4px;
+  background: var(--panel);
+  overflow: hidden;
+}
+
+.progress-fill {
+  width: 0;
+  height: 100%;
+  border-radius: 4px;
+  background: var(--accent);
+  transition: width 0.25s ease;
+}
+
+/* ТЗ п.5.3: бесконечная анимация на этапе валидации. */
+.progress.indeterminate .progress-fill {
+  width: 35%;
+  animation: indeterminate 1.1s ease-in-out infinite;
+}
+
+.counter {
+  color: var(--muted);
+  font-size: 9.5pt;
+}
+
+.status {
+  color: var(--muted);
+  font-size: 9.5pt;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.out {
+  color: var(--muted-dim);
+  font-size: 9pt;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.actions .btn {
+  min-width: 88px;
+  height: 38px;
+}
+
+/* ---------------- Модальное окно ошибки ---------------- */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.modal[hidden] {
+  display: none;
+}
+
+.modal-card {
+  width: min(440px, calc(100% - 40px));
+  padding: 18px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--panel);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+}
+
+.modal-card h3 {
+  margin: 0 0 10px;
+  color: var(--text);
+  font-size: 14pt;
+}
+
+.modal-card p {
+  margin: 0 0 16px;
+  color: var(--muted);
+  line-height: 1.5;
+  user-select: text;
+}
+
+.modal-card .btn {
+  width: 100%;
+  height: 34px;
+}
+
+@keyframes indeterminate {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(320%);
+  }
+}
+
+::-webkit-scrollbar {
+  width: 9px;
+}
+
+::-webkit-scrollbar-track {
+  background: #141414;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4a4a4a;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #5c5c5c;
+}

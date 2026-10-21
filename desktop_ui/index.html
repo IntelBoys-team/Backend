@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>PixelForge — Конвертер изображений</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!--
+    UI строго по ТЗ п.5: фиксированное окно 800x600, тёмная тема,
+    три зоны (импорт, настройки+лог, прогресс+кнопки).
+    Все действия уходят в API, адрес которого приходит в ?api=...
+  -->
+  <main class="app">
+    <!-- Верхняя зона: Drag-and-Drop -->
+    <section class="dropzone" id="dropzone" tabindex="0" role="button"
+             aria-label="Перетащите папку или архив, либо нажмите Обзор">
+      <div class="drop-info">
+        <div class="drop-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"/>
+          </svg>
+        </div>
+        <p class="drop-hint" id="sourceInfo">
+          Перетащите сюда папку или архив с изображениями (.zip, .rar)
+          или нажмите кнопку «Обзор»
+        </p>
+      </div>
+      <div class="drop-actions">
+        <button class="btn btn-primary" id="browseBtn" type="button">Обзор</button>
+        <button class="btn btn-secondary" id="archiveBtn" type="button">Архив</button>
+        <button class="btn btn-secondary" id="outDirBtn" type="button">Папка вывода</button>
+      </div>
+      <input type="file" id="fileInput" accept=".zip,.7z,.rar,.png,.jpg,.jpeg,.bmp" multiple hidden>
+      <input type="file" id="dirInput" webkitdirectory multiple hidden>
+    </section>
+
+    <!-- Средняя зона: настройки слева, журнал справа -->
+    <section class="middle">
+      <aside class="panel settings" id="settingsPanel">
+        <h2>НАСТРОЙКИ</h2>
+
+        <label class="field-label" for="format">Формат вывода</label>
+        <select class="input" id="format">
+          <option value="WebP">WebP</option>
+          <option value="JPEG">JPEG</option>
+        </select>
+
+        <label class="field-label" for="interp">Метод интерполяции</label>
+        <select class="input" id="interp">
+          <option value="Lanczos">Lanczos (Рекомендуется)</option>
+          <option value="Bicubic">Bicubic</option>
+          <option value="Bilinear">Bilinear</option>
+        </select>
+
+        <div class="line">
+          <span class="field-label">Качество</span>
+          <span class="value" id="qualityValue">80%</span>
+        </div>
+        <input type="range" class="range" id="quality" min="10" max="100" step="1" value="80">
+
+        <label class="check">
+          <input type="checkbox" id="resizeEnabled">
+          <span>Изменить разрешение</span>
+        </label>
+        <div class="dims disabled" id="dims">
+          <input type="number" class="input" id="width" min="1" max="16384" value="1920" placeholder="Ширина">
+          <input type="number" class="input" id="height" min="1" max="16384" value="1080" placeholder="Высота">
+        </div>
+        <label class="check">
+          <input type="checkbox" id="keepAspect" checked>
+          <span>Сохранять пропорции</span>
+        </label>
+      </aside>
+
+      <section class="panel log-panel">
+        <h2>ЖУРНАЛ ВЫВОДА</h2>
+        <div class="log" id="log" aria-live="polite">
+          <div class="log-empty">Журнал пуст. Выберите источник, чтобы начать.</div>
+        </div>
+      </section>
+    </section>
+
+    <!-- Нижняя зона: прогресс, счётчик, статус и кнопки -->
+    <section class="bottom">
+      <div class="progress-area">
+        <div class="progress" id="progressTrack">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="counter" id="progressLabel">Обработано: 0 из 0 файлов (0% объектов)</div>
+        <div class="status" id="statusLabel">Ожидание источника…</div>
+        <div class="out" id="outLabel">Выходная папка: — не выбрана</div>
+      </div>
+      <div class="actions">
+        <button class="btn btn-danger" id="abortBtn" type="button" disabled>Прервать</button>
+        <button class="btn btn-primary" id="startBtn" type="button" disabled>Старт</button>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal" id="modal" hidden>
+    <div class="modal-card" role="alertdialog" aria-modal="true" aria-labelledby="modalTitle">
+      <h3 id="modalTitle">Ошибка валидации</h3>
+      <p id="modalText"></p>
+      <button class="btn btn-primary" id="modalOk" type="button">Понятно</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
